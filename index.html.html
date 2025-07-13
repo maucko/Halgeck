@@ -1,0 +1,431 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HALGECK - Tu Asistente Educativo</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #e3f2fd, #fce4ec);
+      color: #333;
+    }
+    header {
+      text-align: center;
+      padding: 2rem 1rem;
+      background-color: #ffffffcc;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+      color: #4a90e2;
+    }
+    header p {
+      font-size: 1.2rem;
+      margin-top: 0.3rem;
+    }
+    #robot {
+      width: 120px;
+      margin-top: 1rem;
+      border-radius: 50%;
+      border: 2px solid #4a90e2;
+      background: #fff;
+      padding: 0.5rem;
+    }
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      padding: 1rem;
+      background-color: #e3f2fd;
+    }
+    nav button {
+      background-color: #4a90e2;
+      color: white;
+      border: none;
+      padding: 0.7rem 1.5rem;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 1rem;
+      box-shadow: 0 3px 5px rgba(0,0,0,0.1);
+      transition: background 0.3s;
+    }
+    nav button:hover {
+      background-color: #357ab8;
+    }
+    .container {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 1rem;
+    }
+    .section {
+      display: none;
+      background: white;
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .section h2 {
+      margin-top: 0;
+      color: #4a90e2;
+    }
+    .tabs {
+      margin: 1rem 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .tabs button {
+      background: #ffca28;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .tabs button:hover {
+      background: #fbc02d;
+    }
+    .juego {
+      margin-top: 1rem;
+    }
+    #quiz button, #vf button {
+      display: block;
+      width: 100%;
+      margin: 0.5rem 0;
+      padding: 0.7rem;
+      background: #f0f8ff;
+      border: 2px solid #4a90e2;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: 0.2s;
+    }
+    #quiz button:hover, #vf button:hover {
+      background: #cce4ff;
+    }
+    #metas-dia li {
+      background: #f9f9f9;
+      margin-bottom: 0.5rem;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      border-left: 4px solid #4a90e2;
+    }
+    .info-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .card {
+      background-color: #f4faff;
+      border-left: 6px solid #4a90e2;
+      border-radius: 12px;
+      padding: 1rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .card h3 {
+      margin-top: 0;
+      color: #357ab8;
+    }
+.juego button {
+  display: block;
+  width: 100%;
+  margin: 0.5rem 0;
+  padding: 0.7rem;
+  background: #f0f8ff;
+  border: 2px solid #4a90e2;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: 0.2s;
+  text-align: center;
+}
+.juego button:hover {
+  background: #cce4ff;
+}
+
+.juego input[type="text"] {
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  border: 2px solid #4a90e2;
+  border-radius: 8px;
+  margin-right: 0.5rem;
+}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🤖 HALGECK</h1>
+    <p>Tu espacio de aprendizaje inteligente para estudiantes de secundaria</p>
+    <img id="robot" src="https://image.shutterstock.com/image-vector/cheerful-funny-cartoon-childrens-robot-260nw-2407552137.jpg" alt="Robot amigable">
+  </header>
+  <nav>
+    <button onclick="mostrarSeccion('informacion')">Información</button>
+    <button onclick="mostrarSeccion('juegos')">Juegos</button>
+    <button onclick="mostrarSeccion('horario')">Horario</button>
+  </nav>
+  <div class="container">
+    <div class="section" id="informacion">
+      <h2>🧠 Información</h2>
+      <div id="info-extra" class="info-cards">
+        <div class="card">
+          <h3>📅 Resumen del día</h3>
+          <p id="fecha-hoy">Cargando fecha...</p>
+          <p id="mensaje-dia">Preparando tu mensaje motivador...</p>
+        </div>
+        <div class="card">
+          <h3>🎯 Consejo adicional</h3>
+          <p id="consejo-extra">Cargando consejo...</p>
+        </div>
+        <div class="card">
+          <h3>🔍 Dato curioso</h3>
+          <p id="dato-curioso">Cargando dato curioso...</p>
+        </div>
+        <div class="card">
+          <h3>🧠 Palabra del día</h3>
+          <p><strong id="palabra-dia">...</strong>: <span id="definicion-palabra">Cargando definición...</span></p>
+        </div>
+      </div>
+      <p id="consejo">Cargando consejo...</p>
+      <h3>🎯 Metas del día</h3>
+      <ul id="metas-dia"></ul>
+    </div>
+    <div class="section" id="juegos">
+      <h2>🎮 Juegos Educativos</h2>
+      <div class="tabs">
+        <button onclick="cambiarJuego('completaPalabra')">Completa la Palabra</button>
+        <button onclick="cambiarJuego('quiz')">Quiz</button>
+        <button onclick="cambiarJuego('vf')">Verdadero o Falso</button>
+      </div>
+      <div id="quiz" class="juego"></div>
+      <div id="vf" class="juego" style="display:none;"></div>
+      <div id="completaPalabra" class="juego" style="display:none;"></div>
+    </div>
+    <div class="section" id="horario">
+  <h2>📅 Horario</h2>
+  <p>Haz clic en cualquier celda para editar tu horario de clases. Los cambios se guardarán automáticamente.</p>
+  <table id="tablaHorario" style="width:100%; border-collapse: collapse; margin-top: 1rem;">
+    <thead>
+      <tr style="background:#4a90e2; color:white;">
+        <th>Lunes</th>
+        <th>Martes</th>
+        <th>Miércoles</th>
+        <th>Jueves</th>
+        <th>Viernes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- 6 filas para simular 6 bloques horarios -->
+      <tr><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+</div>
+  <script>
+    const consejos = [
+      "Organiza tu tiempo antes de estudiar.",
+      "Toma descansos cortos cada 30 minutos.",
+      "Haz mapas mentales para entender mejor.",
+      "Duerme bien para recordar lo aprendido.",
+      "Haz preguntas si no entiendes algo.",
+      "Revisa lo que aprendiste al final del día."
+    ];
+    const quiz = [
+      { pregunta: "¿Cuál es la raíz cuadrada de 64?", opciones: ["6", "8", "10", "12"], correcta: "8" },
+      { pregunta: "¿Qué tipo de palabra es 'rápidamente'?", opciones: ["Adjetivo", "Verbo", "Adverbio", "Sustantivo"], correcta: "Adverbio" }
+    ];
+    const preguntasVF = [
+      { pregunta: "El Sol es una estrella.", respuesta: true },
+      { pregunta: "Los delfines son peces.", respuesta: false }
+    ];
+    function mostrarSeccion(id) {
+      document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
+      document.getElementById(id).style.display = 'block';
+    }
+    function mostrarConsejo() {
+      document.getElementById("consejo").textContent = consejos[Math.floor(Math.random() * consejos.length)];
+    }
+    function mostrarResumenDelDia() {
+      const hoy = new Date();
+      hoy.setHours(hoy.getHours() - 5);
+      const fechaFormateada = hoy.toLocaleDateString('es-PE', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+      const mensajes = ["¡Hoy es una nueva oportunidad para aprender algo genial!", "No te rindas, los grandes logros requieren tiempo."];
+      const datosCuriosos = ["¿Sabías que los pulpos tienen tres corazones?", "La Tierra no es una esfera perfecta."];
+      const palabras = [{ palabra: "Resiliencia", definicion: "Adaptarse y superar situaciones difíciles." }];
+      const consejosExtra = ["Estudia con música instrumental para mejorar tu concentración."];
+      document.getElementById("fecha-hoy").textContent = fechaFormateada;
+      document.getElementById("mensaje-dia").textContent = mensajes[Math.floor(Math.random() * mensajes.length)];
+      document.getElementById("dato-curioso").textContent = datosCuriosos[Math.floor(Math.random() * datosCuriosos.length)];
+      document.getElementById("consejo-extra").textContent = consejosExtra[Math.floor(Math.random() * consejosExtra.length)];
+      const palabraRandom = palabras[Math.floor(Math.random() * palabras.length)];
+      document.getElementById("palabra-dia").textContent = palabraRandom.palabra;
+      document.getElementById("definicion-palabra").textContent = palabraRandom.definicion;
+    }
+    function mostrarPregunta() {
+      const contenedor = document.getElementById("quiz");
+      contenedor.innerHTML = "";
+      const q = quiz[0];
+      const p = document.createElement("p");
+      p.textContent = q.pregunta;
+      contenedor.appendChild(p);
+      q.opciones.forEach(opcion => {
+        const btn = document.createElement("button");
+        btn.textContent = opcion;
+        btn.onclick = () => {
+          contenedor.innerHTML = opcion === q.correcta
+            ? "<p>✅ ¡Correcto!</p>"
+            : `<p>❌ Incorrecto. La respuesta correcta es "${q.correcta}".</p>`;
+        };
+        contenedor.appendChild(btn);
+      });
+    }
+    function iniciarVF() {
+      const cont = document.getElementById("vf");
+      let idx = 0;
+      function mostrar() {
+        const q = preguntasVF[idx];
+        cont.innerHTML = `
+          <p>${q.pregunta}</p>
+          <button onclick="verificarVF(true)">Verdadero</button>
+          <button onclick="verificarVF(false)">Falso</button>
+        `;
+      }
+      window.verificarVF = (resp) => {
+        const correcto = preguntasVF[idx].respuesta === resp;
+        cont.innerHTML = `<p>${correcto ? "✅ Correcto" : "❌ Incorrecto"}</p>`;
+        idx = (idx + 1) % preguntasVF.length;
+        setTimeout(mostrar, 2000);
+      };
+      mostrar();
+    }
+    function cambiarJuego(id) {
+      const juegos = document.querySelectorAll('.juego');
+      juegos.forEach(j => j.style.display = 'none');
+      document.getElementById(id).style.display = 'block';
+      if (id === "quiz") mostrarPregunta();
+      if (id === "vf") iniciarVF();
+      if (id === "completaPalabra") iniciarCompletaPalabra();
+    }
+    function generarMetasDelDia() {
+      const metas = ["Leer 10 páginas de un libro.", "Resolver ejercicios de matemáticas."];
+      const ul = document.getElementById("metas-dia");
+      ul.innerHTML = "";
+      metas.forEach(meta => {
+        const li = document.createElement("li");
+        li.textContent = meta;
+        ul.appendChild(li);
+      });
+    }
+    
+    const palabrasJuego = [
+      { frase: "La capital de Francia es ___", respuesta: "París" },
+      { frase: "El agua hierve a ___ grados Celsius.", respuesta: "100" },
+      { frase: "Los humanos tienen ___ sentidos principales.", respuesta: "cinco" }
+    ];
+
+    let indicePalabra = 0;
+
+    function iniciarCompletaPalabra() {
+      const cont = document.getElementById("completaPalabra");
+      mostrarPalabra();
+
+      function mostrarPalabra() {
+        const f = palabrasJuego[indicePalabra];
+        cont.innerHTML = `
+          <p>${f.frase}</p>
+          <input id="inputPalabra" type="text" placeholder="Completa la palabra" />
+          <button onclick="verificarPalabra()">Verificar</button>
+        `;
+      }
+
+      window.verificarPalabra = () => {
+        const entrada = document.getElementById("inputPalabra").value.trim().toLowerCase();
+        const correcta = palabrasJuego[indicePalabra].respuesta.toLowerCase();
+        const cont = document.getElementById("completaPalabra");
+
+        if (entrada === correcta) {
+          cont.innerHTML = "<p>✅ ¡Correcto!</p>";
+        } else {
+          cont.innerHTML = `<p>❌ Incorrecto. La respuesta es "${palabrasJuego[indicePalabra].respuesta}".</p>`;
+        }
+
+        indicePalabra = (indicePalabra + 1) % palabrasJuego.length;
+        setTimeout(mostrarPalabra, 2000);
+      };
+    }
+
+
+    document.addEventListener("DOMContentLoaded", () => {
+      mostrarSeccion('informacion');
+      mostrarConsejo();
+      mostrarResumenDelDia();
+      generarMetasDelDia();
+    });
+
+// Horario editable con guardado en localStorage
+function iniciarHorarioEditable() {
+  const tabla = document.getElementById("tablaHorario");
+  if (!tabla) return;
+
+  const celdas = tabla.querySelectorAll("td");
+
+  // Cargar desde localStorage
+  const guardado = JSON.parse(localStorage.getItem("horarioGuardado") || "[]");
+  if (guardado.length === celdas.length) {
+    celdas.forEach((td, i) => {
+      td.textContent = guardado[i];
+    });
+  }
+
+  // Estilo e interacción
+  celdas.forEach((td, index) => {
+    td.style.border = "1px solid #ccc";
+    td.style.padding = "0.5rem";
+    td.style.cursor = "pointer";
+
+    td.onclick = () => {
+      const actual = td.textContent;
+      const input = document.createElement("input");
+      input.type = "text";
+      input.value = actual;
+      input.style.width = "100%";
+      input.style.border = "none";
+      input.style.padding = "0.5rem";
+      input.style.fontSize = "1rem";
+
+      td.innerHTML = "";
+      td.appendChild(input);
+      input.focus();
+
+      input.onblur = () => {
+        td.textContent = input.value;
+        guardarHorario();
+      };
+
+      input.onkeydown = e => {
+        if (e.key === "Enter") input.blur();
+      };
+    };
+  });
+
+  function guardarHorario() {
+    const datos = Array.from(celdas).map(td => td.textContent);
+    localStorage.setItem("horarioGuardado", JSON.stringify(datos));
+  }
+}
+
+// Asegúrate de llamar esta función al cargar la página
+document.addEventListener("DOMContentLoaded", () => {
+  iniciarHorarioEditable();
+});
+  </script>
+</body>
+</html>
